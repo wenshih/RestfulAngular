@@ -44,9 +44,6 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
         }).then(function successCallback(response) {
         	if(response.status === 200){
         		console.log(response.data);
-        		//console.log(encodeURIComponent("日期"));
-        		//console.log(decodeURIComponent("日期"));
-        		//$scope.priceHistory = true;
         		$("#historyHeader").html("");
         		$("#historyContent").html("");
         		var header = "";
@@ -60,17 +57,14 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
         		var tmp = "";
         		for(var k=0; k<$("#historyContent").find("tr").length; k++){
         			var tr = $("#historyContent").find("tr")[k];
-        			//console.log(tr);
         			for(var j=0; j<tr.children.length; j++){
         				var td = tr.children[j];
         				if(j == 0){
-        					//tmp = td.innerHTML;
         					var old = td.innerHTML.replace(/\//g,"");
         					var newD = 19110000 + parseInt(old);
         					var year = String(newD).substring(0,4)+"-";
         					var month = String(newD).substring(4,6)+"-";
         					var date = String(newD).substring(6,8);
-        					//console.log(newD);
         					tmp = year+month+date;
         				}
         				if(j === 6){
@@ -144,10 +138,10 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
 	};
 	
 	$scope.clearHistory = function() {
-    	//$scope.priceHistory = false;
     	$scope.stockIdHistory = "";
     	$("#historyHeader").html("");
     	$("#historyContent").html("");
+    	$("#chartdiv").html("");
 	};
 	
 	$scope.chart = function(history){
