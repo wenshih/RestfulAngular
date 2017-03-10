@@ -1,0 +1,32 @@
+<div class="center">
+	<div>
+		<label class="labelDiv">Name</label>
+		<input id="name" type="text" class="inputDiv">
+	</div>
+	<div>
+		<label class="labelDiv">Password</label>
+		<input id="pwd" type="password" class="inputDiv">
+	</div>
+	<div>
+		<label class="labelDiv3">Confirm Password</label>
+		<input id="comPwd" type="password" class="inputDiv3">
+		<span class="spanDiv2">
+			<img id="checkPwd" src="view/image/check.png" style="display: none;" width="20" height="20"/>
+			<img id="errorPwd" src="view/image/error.png" style="display: none;" width="10" height="10"/>
+		</span>
+	</div>
+	<div>
+		<label class="labelDiv2">Email</label>
+		<input id="mail" type="email" class="inputDiv2">
+		<span class="spanDiv2">
+			<img id="check" src="view/image/check.png" style="display: none;" width="20" height="20"/>
+			<img id="error" src="view/image/error.png" style="display: none;" width="10" height="10"/>
+			<button type="button" id="checkMail" class="btn btn-info btn-xs" ng-click="checkMail()">Check mail</button>
+		</span>
+	</div>
+</div>
+<br>
+<div class="center">
+	<button type="button" id="apply" class="btn btn-primary" ng-click="save()">Apply</button>
+	<button type="button" id="clear" class="btn btn-default" ng-click="clear()">Clear</button>
+</div>

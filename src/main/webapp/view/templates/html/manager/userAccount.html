@@ -1,0 +1,169 @@
+<div>
+	<button id="addBtn" type="button" class="btn btn-success btn-sm add" data-toggle="modal" data-target="#myModalAdd">Add User</button>
+</div>
+<div>
+	<table datatable="ng" class="table table-striped" width="100%" dt-options="dtOptions">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Edit</th>
+			</tr>
+		</thead>
+		<tbody id="userTbody">
+			<tr ng-repeat="user in userList">
+			    <td>{{ user.name }}</td>
+			    <td>{{ user.mail }}</td>  
+	            <td>{{ user.role_id}}</td> 
+                <td>
+                	<button type="button" class="btn btn-info btn-sm edit" ng-click="edit(user)" data-toggle="modal" data-target="#myModal">Edit</button>
+					<button type="button" class="btn btn-danger btn-sm delete" ng-click="deleteEdit(user)"data-toggle="modal" data-target="#myModalDelete">Delete</button>
+				</td>
+            </tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">User Profile</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-3 control-label">Name</label>
+        	<div class="col-sm-8">
+		       <input type="text" id="name" value="{{userName}}">
+		       <label id="id" style="visibility:hidden">{{id}}</label>
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Password</label>
+        	<div class="col-sm-8">
+        		<input type="password" id="pwd" value="{{pwd}}">
+        	</div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Email</label>
+        	<div class="col-sm-8">
+        		<label id=mail>{{mail}}</label>
+        	</div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+        		<label id=role>{{role}}</label>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button id="saveBtn" type="button" class="btn btn-primary" ng-click="editSave()" data-dismiss="modal">Save</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModalAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add User</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-3 control-label">Name</label>
+        	<div class="col-sm-8">
+		       <input type="text" id="nameAdd">
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Password</label>
+        	<div class="col-sm-8">
+		       <input type="password" id="pwdAdd">
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Confirm Password</label>
+        	<div class="col-sm-8">
+		       <input type="password" id="comPwd">
+		       <img id="checkPwd" src="view/image/check.png" style="display: none;" width="20" height="20"/>
+			   <img id="errorPwd" src="view/image/error.png" style="display: none;" width="10" height="10"/>
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Email</label>
+        	<div class="col-sm-8">
+        		<input type="text" id="mailAdd">
+        		<span class="spanDiv2">
+					<img id="check" src="view/image/check.png" style="display: none;" width="20" height="20"/>
+					<img id="error" src="view/image/error.png" style="display: none;" width="10" height="10"/>
+					<button type="button" id="checkMail" class="btn btn-info btn-xs" ng-click="checkMail()">Check mail</button>
+				</span>
+        	</div>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+        		<select class="selectpickerAddUser" data-width="100px">
+        			<option value="1">Admin</option>
+				    <option value="2">User</option>
+				</select>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" id="apply" class="btn btn-primary" ng-click="save()">Apply</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="myModalDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delete User</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-10 control-label" style="color:red;">Are you sure you want to delete this user</label>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Name</label>
+        	<div class="col-sm-8">
+		       <label id=nameLabel>{{name}}</label>
+		       <label id="idLabel" style="visibility:hidden">{{id}}</label>
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Email</label>
+        	<div class="col-sm-8">
+        		<label id=mailLabel>{{mail}}</label>
+        	</div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+        		<label id=roleLabel>{{role}}</label>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button id="deleteBtn" type="button" class="btn btn-danger" ng-click="deleteClick()" data-dismiss="modal">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+	

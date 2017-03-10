@@ -1,0 +1,123 @@
+@charset "utf-8";
+
+.center {
+    text-align: center;
+    /*border: 3px solid green;*/
+}
+
+.labelDiv {
+  position: relative;
+  width: 5px;
+  left: 0;
+  /*top: Xpx*/ /* x to align nicely with the baseline of the text in the input */
+}
+.inputDiv {
+  margin-left: 120px;
+}
+
+.labelDiv2 {
+  position: relative;
+  width: 0px;
+  left: 123px;
+  /*top: Xpx*/ /* x to align nicely with the baseline of the text in the input */
+}
+
+.inputDiv2 {
+  margin-left: 247px;
+}
+
+.spanDiv2 {
+  /*background-color: yellow;*/
+  width: 120px; 
+  display: inline-block;
+}
+
+.labelDiv3 {
+  position: relative;
+  width: 200px;
+  left: 85px;
+}
+
+.inputDiv3 {
+  margin-left: 47px;
+}
+
+.labelDoubl1{
+	position: absolute;
+	left:498px;
+}
+
+.labelDoubl2{
+	margin-left: 3px;
+}
+
+.dashboardHead{
+	width:260px;/*360*/
+	height:80px;
+	text-align:center;
+	line-height:80px;
+	font-size:15px;
+	color:#fffaf3;
+	font-weight:bold;
+	background-color:#f9c81e;
+	-webkit-border-radius: 20px 20px 0px 0px;/*圓角*/
+    border-radius: 20px 20px 0px 0px;/*圓角*/
+}
+
+.dashboardBody{
+	width:260px;/*360*/
+	height:180px;/*280*/
+	text-align:left;
+	line-height:60px;/*280*/
+	font-size:15px;
+	color:#f9c81e;
+	font-weight:bold;
+	background-color:#fffaf3;
+	-webkit-border-radius: 0px 0px 20px 20px;/*圓角*/
+    border-radius: 0px 0px 20px 20px;/*圓角*/
+}
+
+.dashboardFooter{
+	width:360px;
+　	height:80px;
+　	text-align:center;
+　	line-height:80px;
+　	font-size:15px;
+　	color:#fffaf3;
+　	font-weight:bold;
+　	background-color:#f9c81e;
+}
+
+.dashboardHor{
+	float:left;
+	margin:10px;/*間距*/
+}
+
+.dashboardLi{
+	height:30px;
+	width:150px;
+}
+/**/
+.horizontal ul li{
+	display:inline;/*水平*/
+	border:1px #cccccc solid;/*邊框*/
+    width: 200px;/*li 項目的寬度為 200px*/
+    float:left;/*若需要在每個項目都加上寬度的效果，使用 float 會比 display inline 來得容易*/
+}
+/*table*/
+.borderCss{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#tableDiv{
+	/*float:left;*/
+}
+
+/*amchart*/
+#chartdiv {
+	width	: 700px;/*100%*/;
+	height	: 500px;
+	/*float:left;*/
+}
+

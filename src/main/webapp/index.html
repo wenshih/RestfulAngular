@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<!-- css -->
+<link type="text/css" rel="stylesheet" href="view/css/common.css"/>
+<link type="text/css" rel="stylesheet" href="view/plugins/jquery.dataTables.min.css"/>
+<link type="text/css" rel="stylesheet" href="view/plugins/bootstrap.min.css"/>
+<link type="text/css" rel="stylesheet" href="view/plugins/angular-datatables.css"/>
+<!-- plugins -->
+<script src="view/plugins/jquery-1.12.3.min.js"></script>
+<script src="view/plugins/angular.js"></script>
+<script src="view/plugins/angular-route.js"></script>
+<script src="view/plugins/angular-ui-router.js"></script>  
+<script src="view/plugins/jquery.dataTables.min.js"></script>
+<script src="view/plugins/angular-datatables.js"></script>
+<script src="view/plugins/bootstrap.min.js"></script>
+<script src="view/plugins/jquery.noty.packaged.min.js"></script>
+<script src="view/plugins/angular-cookies.js"></script>
+<script src="view/plugins/underscore.js"></script>
+
+<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<!-- js -->
+<script src="view/templates/js/app.js"></script>
+<script src="view/templates/js/layout/headerCtrl.js"></script>
+<script src="view/templates/js/common/homeCtrl.js"></script>
+<script src="view/templates/js/common/registeredCtrl.js"></script>
+<script src="view/templates/js/personal/dashboardCtrl.js"></script>  
+<script src="view/templates/js/manager/userAccountCtrl.js"></script>
+<script src="view/templates/js/manager/adminAccountCtrl.js"></script>
+<script src="view/templates/js/manager/permissionCtrl.js"></script>
+<script src="view/templates/js/common/loginCtrl.js"></script>
+<script src="view/templates/js/common/logoutCtrl.js"></script>
+<script src="view/templates/js/personal/profileCtrl.js"></script>
+<script src="view/templates/js/personal/stockCtrl.js"></script>
+</head>
+<body ng-app="demo">
+	<div ui-view="header"></div>
+	<div ui-view="content"></div>
+	<div ui-view="footer"></div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<div class="center">
+	<div>
+		<label class="labelDoubl1">Name</label>
+		<label id="name" class="labelDoubl2">{{name}}</label>
+	</div>
+	<div>
+		<label class="labelDiv">Password</label>
+		<input id="pwd" type="password" class="inputDiv" value="{{pwd}}">
+	</div>
+	<div>
+		<label class="labelDiv3">Confirm Password</label>
+		<input id="comPwd" type="password" class="inputDiv3" value="{{comPwd}}">
+		<span class="spanDiv2">
+			<img id="checkPwd" src="view/image/check.png" style="display: none;" width="20" height="20"/>
+			<img id="errorPwd" src="view/image/error.png" style="display: none;" width="10" height="10"/>
+			<label id="id" style="visibility:hidden">{{id}}</label>
+		</span>
+	</div>
+	<div>
+		<label class="labelDiv">Email</label>
+		<label id="mail" class="inputDiv">{{mail}}</label>
+	</div>
+</div>
+<br>
+<div class="center">
+	<button type="button" id="update" class="btn btn-primary" ng-click="update()">Update</button>
+	<button type="button" id="clear" class="btn btn-default" ng-click="clear()">Clear</button>
+</div>

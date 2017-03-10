@@ -1,0 +1,18 @@
+<div>
+	<ul class="nav nav-pills" ui-sref-opts="{reload:true}"><!-- include bootstrap.min.css & bootstrap.min.js -->
+		<!-- <li><a ng-href="#">Home</a></li> -->
+		<li id="home" ui-sref-active="active"><a ui-sref=".home">Home</a></li>
+		<li id="registered" ui-sref-active="active" ng-show="registered"><a ui-sref=".registered">Registered</a></li>
+	    <li id="dashboard" ui-sref-active="active" ng-show="dashBoard"><a ui-sref=".dashboard">Dashboard</a></li>
+	    <li id="userAccount" ui-sref-active="active" ng-show="userAccount"><a ui-sref=".userAccount">User Account</a></li><!--  Management -->
+		<li id="adminAccount" ui-sref-active="active" ng-show="adminAccount"><a ui-sref=".adminAccount">Admin Account</a></li>
+		<li id="permission" ui-sref-active="active" ng-show="permission"><a ui-sref=".permission">Permission</a></li>
+		<li id="profile" ui-sref-active="active" ng-show="profile"><a ui-sref=".profile">Profile</a></li>
+		<li id="stock" ui-sref-active="active" ng-show="stock"><a ui-sref=".stock">Stock</a></li>
+	    <li id="login" ui-sref-active="active" ng-show="login"><a ui-sref=".login">Login</a></li>
+	    <li id="logout" ui-sref-active="active" ng-show="logout"><a ui-sref=".logout">Log Out</a></li>
+	    <!-- 
+	    <li id="stock"><a href="#">Stock</a></li>
+	    -->
+	</ul>
+</div>

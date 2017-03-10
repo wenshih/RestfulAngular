@@ -1,0 +1,152 @@
+<div>
+	<button id="addBtn" type="button" class="btn btn-success btn-sm add" data-toggle="modal" data-target="#myModalAdd">Add Permission</button>
+</div>
+<br>
+<div>
+	<table id="permissionTable" datatable="ng" class="table table-striped" width="100%" dt-options="dtOptions">
+		<thead>
+			<tr>
+				<th>Permission</th>
+				<th>Page</th>
+				<th>Role</th>
+				<th>Edit</th>
+			</tr>
+		</thead>
+		<tbody id="permissionTbody">
+			<tr ng-repeat="page in pageList">
+				<td><input name="permission" type="checkbox" id="{{page.id}}" ng-checked="page.stat" ng-disabled="page.isDisable"></td>
+				<td>{{page.page}}</td>
+				<td>{{page.role_id}}</td>
+			  	<td>
+			  		<button type="button" class="btn btn-info btn-sm edit" ng-click="edit(page)" data-toggle="modal" data-target="#myModalUpdate">Edit</button>
+	  				<button type="button" class="btn btn-danger btn-sm delete" ng-click="deletePage(page)" data-toggle="modal" data-target="#myModalDelete">Delete</button>
+	  			</td>
+	  		</tr>
+		</tbody>
+	</table>
+</div>
+
+<!-- Modal -->
+<div id="myModalAdd" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Permission</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-3 control-label">Page</label>
+        	<div class="col-sm-8">
+		       <input type="text" id="pageAdd">
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Permission</label>
+		    <div class="col-sm-8">
+		    	<label class="radio-inline"><input type="radio" name="permissionAdd" value="0" checked>Enable</label>
+				<label class="radio-inline"><input type="radio" name="permissionAdd" value="1">Disabled</label>
+			</div>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+				 <select class="selectpickerAdd" data-width="100px">
+        			<option value="1">Admin</option>
+				    <option value="2">User</option>
+				</select>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" id="apply" class="btn btn-primary" ng-click="apply()">Apply</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModalUpdate" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Permission</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-3 control-label">Page</label>
+        	<div class="col-sm-8">
+		       <input type="text" id="pageUpd" value="{{page}}">
+		       <label id="id" style="visibility:hidden">{{id}}</label>
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Permission</label>
+		    <div class="col-sm-8">
+		    	<label class="radio-inline"><input type="radio" ng-model="permissionUpd" name="permissionUpd" ng-disabled="isDisable" value="0">Enable</label>
+				<label class="radio-inline"><input type="radio" ng-model="permissionUpd" name="permissionUpd" ng-disabled="isDisable" value="1">Disabled</label>
+			</div>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+				 <select name="selValue" class="selectpickerUpd" data-width="100px">
+        			<option value="1">Admin</option>
+				    <option value="2">User</option>
+				</select>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" id="update" class="btn btn-primary" ng-click="update()">Update</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="myModalDelete" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delete Page</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<label class="col-sm-10 control-label">Are you sure you want to delete this page</label>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Page</label>
+        	<div class="col-sm-8">
+		       <label id="pageLabel">{{page}}</label>
+		       <label id="idLabel" style="visibility:hidden">{{id}}</label>
+		    </div>	
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Permission</label>
+		    <div class="col-sm-8">
+		    	<label class="radio-inline"><input type="radio" ng-model="permissionDel" name="permissionDel" ng-disabled="isDisabld" value="0">Enable</label>
+				<label class="radio-inline"><input type="radio" ng-model="permissionDel" name="permissionDel" ng-disabled="isDisabld" value="1">Disabled</label>
+			</div>
+        </div>
+        <div class="row">
+        	<label class="col-sm-3 control-label">Role</label>
+        	<div class="col-sm-8">
+        		<label id="roleLabel">{{role}}</label>
+        	</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      	<button id="deleteBtn" type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteClick()">Delete</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

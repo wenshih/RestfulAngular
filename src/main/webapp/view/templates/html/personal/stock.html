@@ -1,0 +1,47 @@
+<div>
+	<div>
+		<label class="">Stock ID</label>
+		<input id="stockId" type="text" class="" ng-model="stockId">
+		<button type="button" id="search" class="btn btn-info" ng-click="search()">Search</button>
+		<button type="button" id="clear" class="btn btn-default" ng-click="clear()">Clear</button>
+	</div>
+	<br>
+	<div>
+		<h4 ng-show="price">即時價格</h4>
+		<table class="borderCss">
+			 <thead>
+				<tr id="sHeader"></tr>
+			</thead>
+			<tbody>
+				<tr id="sContent"></tr>
+			</tbody>
+			<tfoot></tfoot>
+		</table>
+	</div>
+	<hr>
+	<div>
+		<h4>歷史價格</h4>
+		<div>
+			<label>資料日期</label>
+			<select ng-options="year as year.label for year in years track by year.id" ng-model="selectedYear"></select>年
+			<select ng-options="month as month.label for month in months track by month.id" ng-model="selectedMonth"></select>月
+			<label class="">Stock ID</label>
+			<input type="text" class="" ng-model="stockIdHistory">
+			<button type="button" id="search" class="btn btn-info" ng-click="searchHistory()">Search</button>
+			<button type="button" id="clear" class="btn btn-default" ng-click="clearHistory()">Clear</button>
+		</div>
+		<div id="tableDiv">
+			<table class="borderCss">
+			 <thead>
+				<tr id="historyHeader"></tr>
+			</thead>
+			<tbody id="historyContent">
+				
+			</tbody>
+			<tfoot></tfoot>
+		</table>
+		</div>
+		<div id="chartdiv"></div>
+	</div>
+	
+</div>
