@@ -1,9 +1,9 @@
-angular.module('demo').controller('userAccountCtrl', ['$scope', '$http', '$cookies', function($scope,$http,$cookies) {
+angular.module('demo').controller('userAccountCtrl', ['$scope', '$http', '$cookies', '$state', function($scope,$http,$cookies,$state) {
+	
+	checkCookie($cookies.get('email'), $state);
 	
 	var mailFlag = false;
 	var userData = "";
-	//var cookie = $cookies.get('email');
-	
 	
 	$scope.getList = function() {
 		console.log("get list in");
@@ -176,19 +176,3 @@ angular.module('demo').controller('userAccountCtrl', ['$scope', '$http', '$cooki
         });
     };
 }]);
-
-function notyFun(text, type, theme){
-	noty({
-		text: text,
-		layout: 'bottom',
-		type: type,
-		theme: theme,
-		animation: {
-		    open: {height: 'toggle'}, // or Animate.css class names like: 'animated bounceInLeft'
-		    close: {height: 'toggle'}, // or Animate.css class names like: 'animated bounceOutLeft'
-		    easing: 'swing',
-		    speed: 1000 // opening & closing animation speed
-		  },
-		timeout: true,
-	});
-}

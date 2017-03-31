@@ -1,4 +1,6 @@
-angular.module('demo').controller('profileCtrl', ['$scope', '$http', '$cookies', '$route', function($scope,$http,$cookies,$route) {
+angular.module('demo').controller('profileCtrl', ['$scope', '$http', '$cookies', '$route', '$state', function($scope,$http,$cookies,$route,$state) {
+	
+	checkCookie($cookies.get('email'), $state);
 	
 	var data = {"mail":$cookies.get('email')};
 	$http({

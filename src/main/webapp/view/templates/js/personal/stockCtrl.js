@@ -1,4 +1,6 @@
 angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '$state', function($scope,$http,$cookies,$state) {
+
+	checkCookie($cookies.get('email'), $state);
 	
 	$scope.price = false;
 	//$scope.priceHistory = false;
