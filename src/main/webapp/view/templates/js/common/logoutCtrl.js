@@ -11,4 +11,5 @@ angular.module('demo').controller('logoutCtrl', ['$scope', '$http', '$cookies', 
 	//$route.reload();
 	*/
 	$state.go("app.home",null, {reload: true});
+	clearCookie(setIntervalId, $cookies.get('email'));
 }]);

@@ -29,6 +29,6 @@
 
 4.Dashboard(未完成)
 
-5.cookie過期自動登出(未完成)
+5.cookie過期自動登出
 
 

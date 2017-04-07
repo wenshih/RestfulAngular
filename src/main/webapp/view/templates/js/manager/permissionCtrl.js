@@ -1,6 +1,7 @@
 angular.module('demo').controller('permissionCtrl', ['$scope', '$http', '$cookies', '$state',function($scope,$http,$cookies,$state) {
 	
 	checkCookie($cookies.get('email'), $state);
+	clearCookie(setIntervalId, $cookies.get('email'));
 	
 	$scope.getList = function() {
 		console.log("get list in");

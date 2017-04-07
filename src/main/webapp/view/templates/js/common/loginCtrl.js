@@ -1,5 +1,5 @@
 angular.module('demo').controller('loginCtrl', ['$scope', '$http', '$cookies', '$state', function($scope,$http,$cookies,$state) {
-	
+	var setIntervalId;
 	$scope.login = function() {
 		
 		//$("#pwd").val("1234");
@@ -21,7 +21,8 @@ angular.module('demo').controller('loginCtrl', ['$scope', '$http', '$cookies', '
 		    		notyFun('登入成功', 'success', 'defaultTheme');
 		    		//set cookie
 	        		var d = new Date();
-	        		d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+	        		//d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+	        		d.setTime(d.getTime() + (5 * 60 * 1000));//5min
 	        	    var expires = "expires=" + d.toUTCString();
 	        	    //document.cookie = "email=" + data.mail + "; " + expires + "; path=/";
 		    		//$cookies.put('myFavorite', "oatmeal");
@@ -32,6 +33,7 @@ angular.module('demo').controller('loginCtrl', ['$scope', '$http', '$cookies', '
 		    		//清空欄位
 		    		$("#pwd").val("");
 		    		$("#mail").val("");
+		    		setIntervalId = checkCookieSecond($cookies.get('email'), $state);
 		    	}else{
 		    		notyFun('查無資料', 'warning', 'defaultTheme');
 		    	}

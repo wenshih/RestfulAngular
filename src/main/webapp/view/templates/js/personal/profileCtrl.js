@@ -1,6 +1,7 @@
 angular.module('demo').controller('profileCtrl', ['$scope', '$http', '$cookies', '$route', '$state', function($scope,$http,$cookies,$route,$state) {
 	
 	checkCookie($cookies.get('email'), $state);
+	clearCookie(setIntervalId, $cookies.get('email'));
 	
 	var data = {"mail":$cookies.get('email')};
 	$http({

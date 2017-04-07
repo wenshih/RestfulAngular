@@ -1,6 +1,7 @@
 angular.module('demo').controller('adminAccountCtrl', ['$scope', '$http', '$cookies', '$state',function($scope,$http,$cookies,$state) {
 	
 	checkCookie($cookies.get('email'), $state);
+	clearCookie(setIntervalId, $cookies.get('email'));
 	
 	var mailFlag = false;
 	var userData = "";
