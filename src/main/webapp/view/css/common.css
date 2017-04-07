@@ -110,6 +110,10 @@
     border-collapse: collapse;
 }
 
+#tableDivNow{
+	height	: 60px;
+}
+
 #tableDiv{
 	float:left;
 	overflow: auto;
