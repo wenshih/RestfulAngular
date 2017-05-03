@@ -19,9 +19,29 @@ angular.module('demo').controller('profileCtrl', ['$scope', '$http', '$cookies',
     		$scope.comPwd = response.data.pwd;
     		$scope.mail = response.data.mail;
     	}
+    	$scope.getUserProfile($scope.id);
     },function errorCallback(response) {
     	notyFun('Error', 'error', 'defaultTheme');
     });
+	
+	$scope.getUserProfile = function(accountId){
+		
+		$http({
+	        method : "POST",
+	        url : 'http://localhost:8080/RestfulAngular/rest/userProfile/getByAccountId',
+	        data : accountId,
+	        headers : {
+	            'Content-Type' : 'application/json'
+	        }
+	    }).then(function successCallback(response) {
+	    	if(response.status === 200){
+	    		$scope.birthday = response.data.birthday;
+	    	}
+	    },function errorCallback(response) {
+	    	notyFun('取得使用者資訊失敗', 'error', 'defaultTheme');
+	    });
+	}
+	
 	
 	$scope.update = function() {
 		console.log("edit in");

@@ -23,8 +23,19 @@ public class UserProfileController {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		
 		return userProfile;
-		
 	}
+	
+	@POST
+    @Produces(MediaType.APPLICATION_JSON)
+	@Path("/getByAccountId")
+	public UserProfile getByAccountId(String accountId) {
+		UserProfile userProfile = new UserProfile();
+		try {
+			userProfile = userProfileDao.getByAccountId(accountId);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return userProfile;
+    }
 }
