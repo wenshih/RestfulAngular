@@ -64,14 +64,18 @@ angular.module('demo').controller('registeredCtrl', ['$scope', '$http', '$cookie
 	        	if(response.status === 200){
 	        		notyFun('註冊成功', 'success', 'defaultTheme');
 	        		mailFlag = false;
+	        		//存user個資
+	        		$scope.saveUserProfile(response.data.id);
 	        		//set cookie
 	        		var d = new Date();
-	        		d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+	        		//d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 1000));
+	        		d.setTime(d.getTime() + (5 * 60 * 1000));//5min
 	        	    var expires = "expires=" + d.toUTCString();
 	        	    $cookies.put('email', data.mail, {'expires': expires});
 	        		$state.go("app.dashboard",null, {reload: true}); 
 	        		//清空欄位
 	        		$("#name").val("");
+	        		$("#birthday").val("");
 	        		$("#pwd").val("");
 	        		$("#comPwd").val("");
 	        		$("#errorPwd").hide();
@@ -79,6 +83,7 @@ angular.module('demo').controller('registeredCtrl', ['$scope', '$http', '$cookie
 	        		$("#mail").val("");
 	        		$("#error").hide();
             		$("#check").hide();
+            		setIntervalId = checkCookieSecond($cookies.get('email'), $state);
 	        	}
 	        },function errorCallback(response) {
 	        	notyFun('註冊失敗', 'error', 'defaultTheme');
@@ -88,8 +93,27 @@ angular.module('demo').controller('registeredCtrl', ['$scope', '$http', '$cookie
 		}
 	};
 	
+	$scope.saveUserProfile = function(account_id){
+		var data = {"name": $("#name").val() , "birthday": $("#birthday").val(), "account_id":account_id, "role_id":"2"};
+		$http({
+            method : "POST",
+            url : 'http://localhost:8080/RestfulAngular/rest/userProfile/insert',
+            data : angular.toJson(data),
+            headers : {
+                'Content-Type' : 'application/json'
+            }
+        }).then(function successCallback(response) {
+        	if(response.status === 200){
+        		
+        	}
+        },function errorCallback(response) {
+        	notyFun('註冊失敗', 'error', 'defaultTheme');
+        });
+	};
+	
 	$scope.clear = function() {
 		$("#name").val("");
+		$("#birthday").val("");
 		$("#pwd").val("");
 		$("#comPwd").val("");
 		$("#errorPwd").hide();
