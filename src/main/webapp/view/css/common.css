@@ -48,7 +48,20 @@
 }
 
 .labelDoubl2{
-	margin-left: 3px;
+	/*margin-left: 3px;*/
+  	position: relative;
+  	width: 200px;
+  	left: 8px;
+}
+
+.labelDoubl3{
+	position: absolute;
+	left: 500px;
+}
+
+.labelDoubl4{
+	position: absolute;
+	left: 630px;
 }
 
 .dashboardHead{
