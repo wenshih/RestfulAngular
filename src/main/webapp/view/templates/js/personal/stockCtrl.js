@@ -16,15 +16,15 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
 	$scope.selectedYear = $scope.years[$scope.years.length-1];
 	
 	var thisMonth = date.getMonth()+1;
-	$scope.months = [{id: 1,label: '1'},
-	                {id: 2,label: '2'},
-					{id: 3,label: '3'},
-					{id: 4,label: '4'},
-					{id: 5,label: '5'},
-					{id: 6,label: '6'},
-					{id: 7,label: '7'},
-					{id: 8,label: '8'},
-					{id: 9,label: '9'},
+	$scope.months = [{id: 1,label: '01'},
+	                {id: 2,label: '02'},
+					{id: 3,label: '03'},
+					{id: 4,label: '04'},
+					{id: 5,label: '05'},
+					{id: 6,label: '06'},
+					{id: 7,label: '07'},
+					{id: 8,label: '08'},
+					{id: 9,label: '09'},
 					{id: 10,label: '10'},
 					{id: 11,label: '11'},
 					{id: 12,label: '12'}];
@@ -35,7 +35,7 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
 		
 		var selectedYear = $scope.selectedYear.id+1911;
 		
-		var data = {"stockId":$scope.stockIdHistory, "year":selectedYear, "month":$scope.selectedMonth.id}
+		var data = {"stockId":$scope.stockIdHistory, "year":selectedYear, "month":$scope.selectedMonth.label, "date":date.getDate()}
 		
 		$http({
             method : "POST",
@@ -46,6 +46,54 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
             }
         }).then(function successCallback(response) {
         	if(response.status === 200){
+        		console.log(response.data);
+        		$("#historyHeader").html("");
+        		$("#historyContent").html("");
+        		var header = "";
+        		var headerList = response.data[2];
+        		headerList = headerList.split(" ");
+        		for(var i=0;i<headerList.length;i++){
+        			header += "<th class=\"borderCss\">"+headerList[i]+"</th>";
+        		}
+        		$("#historyHeader").append(header);
+        		
+        		var content = "";
+        		var contentList = (response.data[1]).split(" ");
+        		for(var i=0;i<contentList.length;i++){
+        			if(i%9 === 0){
+        				content += "<tr>";
+        				content += "<td class=\"borderCss\">"+contentList[i]+"</td>";
+        				
+        			}else{
+        				content += "<td class=\"borderCss\">"+contentList[i]+"</td>";
+        				if((i+1)%9 === 0){
+        					content += "</tr>";
+        				}
+        			}
+        		}
+        		$("#historyContent").append(content);
+        		var history = [];
+        		var tmp = "";
+        		for(var k=0; k<$("#historyContent").find("tr").length; k++){
+        			var tr = $("#historyContent").find("tr")[k];
+        			for(var j=0; j<tr.children.length; j++){
+        				var td = tr.children[j];
+        				if(j == 0){
+        					var old = td.innerHTML.replace(/\//g,"");
+        					var newD = 19110000 + parseInt(old);
+        					var year = String(newD).substring(0,4)+"-";
+        					var month = String(newD).substring(4,6)+"-";
+        					var date = String(newD).substring(6,8);
+        					tmp = year+month+date;
+        				}
+        				if(j === 6){
+        					history.push({"date": tmp,"value": td.innerHTML});
+        				}
+        			}
+        		}
+        		
+        		$scope.chart(history);
+        		/*
         		console.log(response.data);
         		$("#historyHeader").html("");
         		$("#historyContent").html("");
@@ -75,8 +123,8 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
         				}
         			}
         		}
-        		
         		$scope.chart(history);
+        		*/
         	}
         },function errorCallback(response) {
         	notyFun('查詢失敗', 'error', 'defaultTheme');
@@ -101,29 +149,35 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
 	        }).then(function successCallback(response) {
 	        	if(response.status === 200){
 	        		console.log(response.data);
-	        		$scope.price = true;
-	        		$("#sHeader").html("");
-		        	$("#sContent").html("");
-	        		var header = "";
-	        		var content = "";
-	        		for(var i=0;i<response.data.length;i++){
-		        		if(i%2 === 0){
-		        			if(i != 22){//濾掉個股資料
-		        				header += "<th class=\"borderCss\">"+response.data[i]+"</th>";
-		        			}
-		        		}else{
-		        			var dataNew = "";
-		        			if(response.data[i].split(" ").length > 1){
-		        				dataNew = response.data[i].split(" ")[0];
-		        			}else{
-		        				dataNew = response.data[i];
-		        			}
-		        			content += "<td class=\"borderCss\">"+dataNew+"</td>";
-		        		}
-		        	}
-		        	$("#sHeader").append(header);
-		        	$("#sContent").append(content);
-		        	
+	        		if(response.data.length === 0){
+	        			$scope.price = false;
+	        			$("#sHeader").html("");
+	        	    	$("#sContent").html("");
+	        			notyFun('查詢失敗', 'error', 'defaultTheme');
+	        		}else{
+	        			$scope.price = true;
+		        		$("#sHeader").html("");
+			        	$("#sContent").html("");
+		        		var header = "";
+		        		var content = "";
+		        		for(var i=0;i<response.data.length;i++){
+			        		if(i%2 === 0){
+			        			if(i != 22){//濾掉個股資料
+			        				header += "<th class=\"borderCss\">"+response.data[i]+"</th>";
+			        			}
+			        		}else{
+			        			var dataNew = "";
+			        			if(response.data[i].split(" ").length > 1){
+			        				dataNew = response.data[i].split(" ")[0];
+			        			}else{
+			        				dataNew = response.data[i];
+			        			}
+			        			content += "<td class=\"borderCss\">"+dataNew+"</td>";
+			        		}
+			        	}
+			        	$("#sHeader").append(header);
+			        	$("#sContent").append(content);
+	        		}
 	        	}
 	        },function errorCallback(response) {
 	        	notyFun('查詢失敗', 'error', 'defaultTheme');

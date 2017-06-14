@@ -17,7 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.github.abola.crawler.CrawlerPack;
 import com.model.Stock;
@@ -36,21 +38,24 @@ public class StockController{
 		
 		Element  table;
 		//標頭
-        table = CrawlerPack.start().setRemoteEncoding("big5").getFromHtml(uri).select("center>table").get(1).select("table").get(0);
-        //內容        
-        table = CrawlerPack.start().setRemoteEncoding("big5").getFromHtml(uri).select("center>table").get(1).select("table").get(1);
-		
-        System.out.println("--------------------------------------------------");
-        
-        for(int i=0; i<table.getElementsByTag("th").size();i++){
-        	if(table.getElementsByTag("th").eq(i).hasAttr("align")){
-	        	key.add(table.getElementsByTag("th").eq(i).text());
+        //table = CrawlerPack.start().setRemoteEncoding("big5").getFromHtml(uri).select("center>table").get(1).select("table").get(0);
+        //內容
+		Elements tables = CrawlerPack.start().setRemoteEncoding("big5").getFromHtml(uri).select("center>table").get(1).select("table");
+		if(tables.size() > 1){
+			table = tables.get(1);
+			System.out.println("--------------------------------------------------");
+	        
+	        for(int i=0; i<table.getElementsByTag("th").size();i++){
+	        	if(table.getElementsByTag("th").eq(i).hasAttr("align")){
+		        	key.add(table.getElementsByTag("th").eq(i).text());
+		        }
+	        	if(table.getElementsByTag("td").eq(i).hasAttr("align") && !table.getElementsByTag("td").eq(i).hasClass("tt")){
+	        		key.add(table.getElementsByTag("td").eq(i).text());
+	        	}
 	        }
-        	if(table.getElementsByTag("td").eq(i).hasAttr("align") && !table.getElementsByTag("td").eq(i).hasClass("tt")){
-        		key.add(table.getElementsByTag("td").eq(i).text());
-        	}
-        }
-        System.out.println(key);
+	        System.out.println(key);
+		}
+        
         return key;
 	}
 	
@@ -58,12 +63,41 @@ public class StockController{
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/getStockHistory")
 	public List<String> getStockHistory(Stock stock) throws Exception{
-		
+		/*舊的url
 		String url = "http://www.twse.com.tw/ch/trading/exchange/STOCK_DAY/STOCK_DAYMAIN.php";
 		List<String> key = sendReq(url, "", stock.getYear(), stock.getMonth(), stock.getStockId(), "查詢");
+		*/
+		String searchDate = stock.getYear()+stock.getMonth()+stock.getDate();
+		String url = "http://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date="+searchDate+"&stockNo="+stock.getStockId()+"&_=1497346180394";
+		List<String> key = newUrl(url);
 		return key;
 	}
 	
+	/**
+	 * 新的url
+	 * @param url
+	 * @return
+	 */
+	public List<String> newUrl(String url){
+		List<String> key = new ArrayList<String>();
+		Document doc = CrawlerPack.start().setRemoteEncoding("big5").getFromJson(url);
+		key.add(doc.select("title").text());
+		key.add(doc.select("array").text());
+		key.add(doc.select("fields").text());
+		return key;
+	}
+	
+	/**
+	 * 舊的url使用
+	 * @param url
+	 * @param download
+	 * @param query_year
+	 * @param query_month
+	 * @param CO_ID
+	 * @param query_button
+	 * @return
+	 * @throws Exception
+	 */
 	public List<String> sendReq(String url,String download,String query_year, String query_month, String CO_ID, String query_button) throws Exception{
 		
 		CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -96,23 +130,11 @@ public class StockController{
 		List<String> key = new ArrayList<String>();
 		Element  table;
 		//formate
-		//table = CrawlerPack.start().setRemoteEncoding("big5").htmlToJsoupDoc(result.toString()).select("table").get(0);
 		table = CrawlerPack.start().setRemoteEncoding("utf-8").htmlToJsoupDoc(result.toString()).select("table").get(0);
-		//table = CrawlerPack.start().htmlToJsoupDoc(result.toString()).select("table").get(0);
 		System.out.println(table);
-		//Element th;//標頭
 		Element td;//內容
-		//th = table.select("thead").get(0);
 		td = table.select("tbody").get(0);
-		/*
-		for(int i=0; i<th.select("tr").get(1).getElementsByTag("td").size(); i++){
-			//String s1 = th.select("tr").get(1).getElementsByTag("td").eq(i).text();
-			//byte[] bytes = s1.getBytes("big5"); // Charset to encode into
-			//String s2 = new String(bytes, "big5");
-			//key.add(s2);
-			key.add(th.select("tr").get(1).getElementsByTag("td").eq(i).text());
-		}
-		*/
+		
 		for(int i=0; i<td.getElementsByTag("tr").size(); i++){
 			String content = "<tr>";
 			for(int j=0; j<td.getElementsByTag("tr").get(i).getElementsByTag("td").size(); j++){

@@ -6,6 +6,7 @@ public class Stock {
 	private String stockName;
 	private String month;
 	private String year;
+	private String date;
 	
 	public String getStockId() {
 		return stockId;
@@ -30,6 +31,12 @@ public class Stock {
 	}
 	public void setYear(String year) {
 		this.year = year;
+	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 }
