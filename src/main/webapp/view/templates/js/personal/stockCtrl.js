@@ -192,24 +192,31 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
     	console.log("add stock");
     	//get account_id
     	var account_id = "";
-    	var data = {"mail":$cookies.get('email')};
-    	$http({
-            method : "POST",
-            url : 'http://localhost:8080/RestfulAngular/rest/account/getByMail',
-            data : angular.toJson(data),
-            headers : {
-                'Content-Type' : 'application/json'
-            }
-        }).then(function successCallback(response) {
-        	if(response.status === 200){
-        		account_id = response.data.id;
-        		$scope.addStock(account_id);
-        	}
-        },function errorCallback(response) {
-        	notyFun('Error', 'error', 'defaultTheme');
-        });
-    	
-    	
+    	if(!_.isUndefined($cookies.get('email')) && $scope.stockId !== ""){
+    		var data = {"mail":$cookies.get('email')};
+        	$http({
+                method : "POST",
+                url : 'http://localhost:8080/RestfulAngular/rest/account/getByMail',
+                data : angular.toJson(data),
+                headers : {
+                    'Content-Type' : 'application/json'
+                }
+            }).then(function successCallback(response) {
+            	if(response.status === 200){
+            		account_id = response.data.id;
+            		$scope.addStock(account_id);
+            	}
+            },function errorCallback(response) {
+            	notyFun('Error', 'error', 'defaultTheme');
+            });
+    	}else{
+    		if(_.isUndefined($cookies.get('email'))){
+    			$state.go("app.login", null, {reload: true});
+    			clearCookie(setIntervalId, $cookies.get('email'));
+    		}else{
+    			notyFun('請填股票代號', 'warning', 'defaultTheme');
+    		}
+    	}
     };
     
     $scope.addStock = function(account_id) {
@@ -227,7 +234,6 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
         	if(response.status === 200){
         		notyFun('儲存成功', 'success', 'defaultTheme');
         	}
-        	$scope.getUserProfile($scope.id);
         },function errorCallback(response) {
         	notyFun('Error', 'error', 'defaultTheme');
         });
