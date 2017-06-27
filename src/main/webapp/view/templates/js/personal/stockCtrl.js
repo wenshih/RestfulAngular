@@ -187,6 +187,52 @@ angular.module('demo').controller('stockCtrl', ['$scope', '$http', '$cookies', '
 		}
     };
     
+    
+    $scope.add = function() {
+    	console.log("add stock");
+    	//get account_id
+    	var account_id = "";
+    	var data = {"mail":$cookies.get('email')};
+    	$http({
+            method : "POST",
+            url : 'http://localhost:8080/RestfulAngular/rest/account/getByMail',
+            data : angular.toJson(data),
+            headers : {
+                'Content-Type' : 'application/json'
+            }
+        }).then(function successCallback(response) {
+        	if(response.status === 200){
+        		account_id = response.data.id;
+        		$scope.addStock(account_id);
+        	}
+        },function errorCallback(response) {
+        	notyFun('Error', 'error', 'defaultTheme');
+        });
+    	
+    	
+    };
+    
+    $scope.addStock = function(account_id) {
+    	//insert stock
+    	var data = {"account_id":account_id, "stockId":$scope.stockId};
+    	
+    	$http({
+    		method : "POST",
+    		url : 'http://localhost:8080/RestfulAngular/rest/stock/insert',
+    		data : angular.toJson(data),
+    		headers : {
+    			'Content-Type' : 'application/json'
+    		}
+    	}).then(function successCallback(response) {
+        	if(response.status === 200){
+        		notyFun('儲存成功', 'success', 'defaultTheme');
+        	}
+        	$scope.getUserProfile($scope.id);
+        },function errorCallback(response) {
+        	notyFun('Error', 'error', 'defaultTheme');
+        });
+	};
+	
     $scope.clear = function() {
     	$scope.price = false;
     	$scope.stockId = "";

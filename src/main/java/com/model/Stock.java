@@ -2,12 +2,22 @@ package com.model;
 
 public class Stock {
 	
+	private int id;
 	private String stockId;
 	private String stockName;
 	private String month;
 	private String year;
 	private String date;
+	private int account_id;
+	private int cost;
+	private int profit;
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getStockId() {
 		return stockId;
 	}
@@ -37,6 +47,24 @@ public class Stock {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public int getAccount_id() {
+		return account_id;
+	}
+	public void setAccount_id(int account_id) {
+		this.account_id = account_id;
+	}
+	public int getCost() {
+		return cost;
+	}
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
+	public int getProfit() {
+		return profit;
+	}
+	public void setProfit(int profit) {
+		this.profit = profit;
 	}
 	
 }

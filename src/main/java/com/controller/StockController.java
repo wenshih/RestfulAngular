@@ -3,6 +3,7 @@ package com.controller;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.ws.rs.POST;
@@ -21,12 +22,17 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.dao.impl.AccountDaoImpl;
+import com.dao.impl.StockDaoImpl;
 import com.github.abola.crawler.CrawlerPack;
 import com.model.Stock;
 
 @Path("/stock")
 public class StockController{
 
+	StockDaoImpl stockDao = new StockDaoImpl();
+	AccountDaoImpl accountDao = new AccountDaoImpl();
+	
 	@POST
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/getStock")
@@ -73,6 +79,32 @@ public class StockController{
 		return key;
 	}
 	
+	@POST
+    @Produces(MediaType.APPLICATION_JSON)
+	@Path("/insert")
+	public Stock insert(Stock stock){
+		
+		try {
+			String url = "http://www.twse.com.tw/zh/api/codeQuery?query=0056&_=1498469717093";
+			List<String> key = getStockNameUrl(url);
+			stock.setStockName(key.get(1).split(" ")[1]);
+			//加入的年月日
+			Calendar ca = Calendar.getInstance();
+		    int year = ca.get(Calendar.YEAR);//年
+		    int month = ca.get(Calendar.MONTH);//月 
+		    int day = ca.get(Calendar.DATE);//日
+			stock.setYear(String.valueOf(year));
+			stock.setMonth(String.valueOf(month));
+			stock.setDate(String.valueOf(day));
+			//insert
+			stockDao.insert(stock);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		
+		return stock;
+	}
+	
 	/**
 	 * 新的url
 	 * @param url
@@ -84,6 +116,19 @@ public class StockController{
 		key.add(doc.select("title").text());
 		key.add(doc.select("array").text());
 		key.add(doc.select("fields").text());
+		return key;
+	}
+	
+	/**
+	 * 取得股票名稱
+	 * @param url
+	 * @return
+	 */
+	public List<String> getStockNameUrl(String url){
+		List<String> key = new ArrayList<String>();
+		Document doc = CrawlerPack.start().setRemoteEncoding("big5").getFromJson(url);
+		key.add(doc.select("query").text());
+		key.add(doc.select("suggestions").text());
 		return key;
 	}
 	
