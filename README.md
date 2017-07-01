@@ -27,7 +27,7 @@
 
 3.股票查詢
 
-4.Dashboard(未完成)
+4.Dashboard(未完成：profit計算,需取得即時價格)
 
 5.cookie過期自動登出
 

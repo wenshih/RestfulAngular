@@ -2,7 +2,10 @@ package com.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.dao.IStockDao;
 import com.dao.connection.GetConnection;
@@ -46,7 +49,7 @@ public class StockDaoImpl implements IStockDao {
 
 	@Override
 	public Stock delete(int id) throws Throwable {
-		Stock account = new Stock();
+		Stock stock = new Stock();
 		String sql = "DELETE FROM STOCK.STOCK WHERE ID = '"+id+"';";
 		GetConnection database= new GetConnection();
 		Connection connection = null;
@@ -66,7 +69,71 @@ public class StockDaoImpl implements IStockDao {
 			}
 		}
 		
-		return account;
+		return stock;
+	}
+
+	@Override
+	public List<Stock> getStockList(Stock stock){
+		List<Stock> stockList = new ArrayList<Stock>();
+		
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM STOCK.STOCK WHERE ACCOUNT_ID="+stock.getAccount_id());
+		GetConnection database= new GetConnection();
+		Connection connection = null;
+		try {
+			connection = database.Get_Connection();
+			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				Stock stockData = new Stock();
+				stockData.setId(rs.getInt("id"));
+				stockData.setStockId(rs.getString("stockId"));
+				stockData.setStockName(rs.getString("stockName"));
+				stockData.setAccount_id(rs.getInt("account_id"));
+				stockData.setCost(rs.getInt("cost"));
+				stockData.setProfit(rs.getInt("profit"));
+				stockList.add(stockData);
+			}
+			
+			ps.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+		return stockList;
+	}
+	
+public Stock updateStock(Stock stock) throws Throwable {
+		
+		String sql = "UPDATE STOCK.STOCK SET COST = ? WHERE ID = ?;";
+		GetConnection database= new GetConnection();
+		Connection connection = null;
+		try {
+			connection = database.Get_Connection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, stock.getCost());
+			ps.setInt(2, stock.getId());
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+			
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {}
+			}
+		}
+		return stock;
 	}
 
 }
