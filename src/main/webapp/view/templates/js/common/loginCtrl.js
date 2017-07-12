@@ -1,11 +1,8 @@
 angular.module('demo').controller('loginCtrl', ['$scope', '$http', '$cookies', '$state', function($scope,$http,$cookies,$state) {
 	var setIntervalId;
+	
+	browserVerson();//os,browser version
 	$scope.login = function() {
-		
-		//$("#pwd").val("1234");
-		//$("#mail").val("wenshih99@gmail.com");
-		//$("#mail").val("test@xxx.com");
-		
 		if($("#pwd").val() != "" || $("#mail").val() != ""){
 			var data = {"pwd": $("#pwd").val(), "mail":$("#mail").val()};
 			
